@@ -62,9 +62,12 @@ intercept = reg.intercept_
 trendline = [slope[0][0]*i+intercept for i in y1]
 plt.plot(y1, trendline, color = 'red', lw=2)
 
+
 # (7) Cross-validation
 figure7 = plt.figure(7)
-y_pred = cross_val_predict(reg, X, Y, cv=5)
+X1 = np.arange(len(X)).reshape(-1,1)  # time series
+XX = np.concatenate((X, X1), axis=1)
+y_pred = cross_val_predict(reg, XX, Y, cv=5)
 plt.scatter(Y, y_pred)
 plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], color='red', lw=2)
 plt.xlabel('Real Temperature C')
@@ -72,4 +75,3 @@ plt.ylabel('Predicted Temperature C')
 plt.title('Cross-Validation Predict Temperature')
 
 plt.show()
-
